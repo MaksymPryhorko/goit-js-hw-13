@@ -5,20 +5,13 @@ export default class ApiService {
         this.amountData = 0;
     }
 
-    fetchArticles() {
+    async fetchArticles() {
         const API_KEY = 'https://pixabay.com/api/?key=22710862-ad31ee603fc8e39b27d5b9240';
         const searchParameters = `&q=${this.searchValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
 
-        return fetch(`${API_KEY}${searchParameters}`)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            };
-            throw new Error(response.status)
-        })
-            .then(images => {
-            return images;
-        })
+        const response = await fetch(`${API_KEY}${searchParameters}`);
+        const images = await response.json();
+        return images;
     }
 
     incrementPage() {

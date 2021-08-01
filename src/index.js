@@ -38,23 +38,30 @@ function onSearch(event) {
     fetchData();
 };
 
-function fetchData() {
+async function fetchData() {
     hideButtonLoadMore()
-    apiService.fetchArticles().then((data) => {
-        if (data.hits.length === 0) {
+    try {
+        const images = await apiService.fetchArticles();
+
+        if (images.hits.length === 0) {
             Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.');
-            return;
+        return;
         };
+
         apiService.incrementAmountData();
         apiService.incrementPage();
-        paintMarkup(data.hits);
-        if (apiService.amountData >= data.totalHits) {
+        paintMarkup(images.hits);
+
+        if (apiService.amountData >= images.totalHits) {
             Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
             return;
         };
 
         displayButtonLoadMore();
-    }).catch(error => console.log(error));
+        
+    } catch (error) {
+        console.log(error)
+    };
 };
 
 function hideButtonLoadMore() {
