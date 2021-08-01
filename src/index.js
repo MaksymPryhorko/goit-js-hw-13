@@ -42,6 +42,7 @@ function fetchData() {
     hideButtonLoadMore()
     apiService.fetchArticles().then((data) => {
         if (data.hits.length === 0) {
+            Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.');
             return;
         };
         apiService.incrementAmountData();

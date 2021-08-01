@@ -1,5 +1,3 @@
-import Notiflix from 'notiflix';
-
 export default class ApiService {
     constructor() {
         this.searchValue = '';
@@ -19,10 +17,6 @@ export default class ApiService {
             throw new Error(response.status)
         })
             .then(images => {
-            if (images.hits.length === 0) {
-                Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.');
-                return images;
-            };
             return images;
         })
     }
