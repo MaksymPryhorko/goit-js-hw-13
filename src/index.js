@@ -45,15 +45,15 @@ function fetchData() {
             return;
         };
         apiService.incrementAmountData();
+        apiService.incrementPage();
         paintMarkup(data.hits);
-        console.log(apiService.amountData);
         if (apiService.amountData >= data.totalHits) {
             Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
             return;
         };
 
         displayButtonLoadMore();
-    });
+    }).catch(error => console.log(error));
 };
 
 function hideButtonLoadMore() {

@@ -16,18 +16,15 @@ export default class ApiService {
             if (response.ok) {
                 return response.json();
             };
-
             throw new Error(response.status)
         })
-        .then(images => {
+            .then(images => {
             if (images.hits.length === 0) {
                 Notiflix.Notify.warning('Sorry, there are no images matching your search query. Please try again.');
                 return images;
             };
-            this.incrementPage();
             return images;
         })
-        .catch(error => console.log(error))
     }
 
     incrementPage() {
