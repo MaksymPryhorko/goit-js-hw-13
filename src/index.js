@@ -22,7 +22,7 @@ function paintMarkup(hits) {
     galleryRef.insertAdjacentHTML('beforeend', imagesList);
 };
 
-function onSearch(event) {
+async function onSearch(event) {
     event.preventDefault();
     const inputValue = event.currentTarget.searchQuery.value;
 
@@ -34,8 +34,10 @@ function onSearch(event) {
     clearMarup();
     apiService.query = inputValue;
     apiService.resetPage();
+    apiService.resetTotalHits();
     apiService.resetAmountData();
-    fetchData();
+    await fetchData();
+    Notiflix.Notify.success(`Hooray! We found ${apiService.totalHits} images.`);
 };
 
 async function fetchData() {
@@ -48,9 +50,11 @@ async function fetchData() {
         return;
         };
 
+        apiService.updateTotalHits = images.totalHits;
         apiService.incrementAmountData();
         apiService.incrementPage();
         paintMarkup(images.hits);
+        apiService.updateTotalHits = images.totalHits;
 
         if (apiService.amountData >= images.totalHits) {
             Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
@@ -58,7 +62,7 @@ async function fetchData() {
         };
 
         displayButtonLoadMore();
-        
+       
     } catch (error) {
         console.log(error)
     };

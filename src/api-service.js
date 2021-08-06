@@ -5,17 +5,18 @@ export default class ApiService {
         this.searchValue = '';
         this.page = 1;
         this.amountData = 0;
+        this.totalHits = 0;
     }
 
     async fetchArticles() {
-        const API_KEY = 'https://pixabay.com/api/?key=22710862-ad31ee603fc8e39b27d5b9240';
-        const searchParameters = `&q=${this.searchValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
-
+        const BASE_URL = 'https://pixabay.com/api/';
+        const API_KEY = '22710862-ad31ee603fc8e39b27d5b9240';
+        const searchParameters = `${this.searchValue}&image_type=photo&orientation=horizontal&safesearch=true&per_page=40&page=${this.page}`
         // const response = await fetch(`${API_KEY}${searchParameters}`);
         // const images = await response.json();
         // return images;
-
-        const response = await axios.get(`${API_KEY}${searchParameters}`);
+        
+        const response = await axios.get(`${BASE_URL}?key=${API_KEY}&q=${searchParameters}`);
         return response.data;
     }
 
@@ -42,5 +43,18 @@ export default class ApiService {
     resetAmountData() {
         this.amountData = 0;
     }
+
+    resetTotalHits() {
+        this.totalHits = 0;
+    };
+
+    set updateTotalHits(newTotalHits) {
+        this.totalHits = newTotalHits;
+    };
+
+    get returnTotalHits() {
+        return this.totalHits;
+    };
+
 };
 
